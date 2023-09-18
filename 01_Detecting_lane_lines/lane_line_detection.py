@@ -20,3 +20,33 @@ def canny(image: np.ndarray) -> np.ndarray:
     return canny_img
 
 
+def region_of_interest(image: np.ndarray) -> np.ndarray:
+    """
+    This function creates a mask for the region of interest
+    :param image: input image
+    :return: image with the region of interest
+    """
+    height = image.shape[0]
+    # Define the region of interest
+    polygons = np.array([
+        [(50, height), (500, height), (350, 190)]
+    ])
+    # Create a mask
+    mask = np.zeros_like(image)
+    # Fill the mask with the polygon
+    cv2.fillPoly(mask, polygons, 255)
+    # Apply the mask to the image
+    #masked_image = cv2.bitwise_and(image, mask)
+
+    return mask
+
+
+# Load image
+image = cv2.imread('road.jpg')
+# Create a copy of the image
+lane_image = np.copy(image)
+# Apply Canny edge detection
+canny_image = canny(lane_image)
+
+#plt.imshow(canny_image)
+#plt.show()
