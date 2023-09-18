@@ -42,7 +42,7 @@ def region_of_interest(image: np.ndarray) -> np.ndarray:
 
 
 # Load image
-image = cv2.imread('road.jpg')
+image = cv2.imread('images/road.jpg')
 # Create a copy of the image
 lane_image = np.copy(image)
 # Apply Canny edge detection
