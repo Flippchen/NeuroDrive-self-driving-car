@@ -55,11 +55,66 @@ def display_lines(masked_image: np.ndarray, hough_lines: np.ndarray) -> np.ndarr
         # Iterate over all the lines
         for line in hough_lines:
             # Reshape the line
-            x1, y1, x2, y2 = line.reshape(4)
+            x1, y1, x2, y2 = line.reshape(4)  # x1, y1, x2, y2 = line
             # Draw the line
             cv2.line(line_img, (x1, y1), (x2, y2), (255, 0, 0), 10)
 
     return line_img
+
+
+def make_coordinates(lane_img: np.ndarray, line_parameters: np.ndarray) -> np.ndarray:
+    """
+    This function calculates the coordinates of the lines
+    :param lane_img: input image
+    :param line_parameters: parameters of the lines
+    :return: coordinates of the lines
+    """
+    # Get the slope and intercept
+    slope, intercept = line_parameters
+    # Get the height of the image
+    y1 = lane_img.shape[0]
+    # Calculate the coordinates of the lines
+    y2 = int(y1 * (3 / 5))
+    x1 = int((y1 - intercept) / slope)
+    x2 = int((y2 - intercept) / slope)
+
+    return np.array([x1, y1, x2, y2])
+
+
+def average_slope_intercept(lane_img: np.ndarray, hough_lines: np.ndarray) -> np.ndarray:
+    """
+    This function averages the lines
+    :param lane_img: input image
+    :param hough_lines: lines to be averaged
+    :return: averaged lines
+    """
+    # Create empty lists
+    left_fit = []
+    right_fit = []
+    # Iterate over all the lines
+    for line in hough_lines:
+        # Reshape the line
+        x1, y1, x2, y2 = line.reshape(4)
+        # Fit a polynomial to the points
+        parameters = np.polyfit((x1, x2), (y1, y2), 1)
+        # Get the slope and intercept
+        slope = parameters[0]
+        intercept = parameters[1]
+        # Check if the slope is negative
+        if slope < 0:
+            # Append the slope and intercept to the left list
+            left_fit.append((slope, intercept))
+        else:
+            # Append the slope and intercept to the right list
+            right_fit.append((slope, intercept))
+    # Average the lines
+    left_fit_average = np.average(left_fit, axis=0)
+    right_fit_average = np.average(right_fit, axis=0)
+    # Calculate the coordinates of the lines
+    left_line = make_coordinates(lane_img, left_fit_average)
+    right_line = make_coordinates(lane_img, right_fit_average)
+
+    return np.array([left_line, right_line])
 
 
 # Load image
@@ -72,10 +127,12 @@ canny_image = canny(lane_image)
 cropped_image = region_of_interest(canny_image)
 # Calculate the Hough lines
 lines = cv2.HoughLinesP(cropped_image, 2, np.pi / 180, 120, np.array([]), minLineLength=40, maxLineGap=20)
+# Average the lines (Smooth the lines)
+averaged_lines = average_slope_intercept(lane_image, lines)
 # Display the lines
-line_image = display_lines(lane_image, lines)
+line_image = display_lines(lane_image, averaged_lines)
 # Display combined image
-combined = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
+combined_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
 
-cv2.imshow('result', combined)
+cv2.imshow('result', combined_image)
 cv2.waitKey(0)
