@@ -107,32 +107,34 @@ def average_slope_intercept(lane_img: np.ndarray, hough_lines: np.ndarray) -> np
         else:
             # Append the slope and intercept to the right list
             right_fit.append((slope, intercept))
-    # Average the lines
-    left_fit_average = np.average(left_fit, axis=0)
-    right_fit_average = np.average(right_fit, axis=0)
-    # Calculate the coordinates of the lines
-    left_line = make_coordinates(lane_img, left_fit_average)
-    right_line = make_coordinates(lane_img, right_fit_average)
+    if len(left_fit) and len(right_fit):
+        # Average the lines
+        left_fit_average = np.average(left_fit, axis=0)
+        right_fit_average = np.average(right_fit, axis=0)
+        # Calculate the coordinates of the lines
+        left_line = make_coordinates(lane_img, left_fit_average)
+        right_line = make_coordinates(lane_img, right_fit_average)
 
-    return np.array([left_line, right_line])
+        return np.array([left_line, right_line])
 
 
-# Load image
-image = cv2.imread('images/road.jpg')
-# Create a copy of the image
-lane_image = np.copy(image)
-# Apply Canny edge detection
-canny_image = canny(lane_image)
-# Apply the region of interest
-cropped_image = region_of_interest(canny_image)
-# Calculate the Hough lines
-lines = cv2.HoughLinesP(cropped_image, 2, np.pi / 180, 120, np.array([]), minLineLength=40, maxLineGap=20)
-# Average the lines (Smooth the lines)
-averaged_lines = average_slope_intercept(lane_image, lines)
-# Display the lines
-line_image = display_lines(lane_image, averaged_lines)
-# Display combined image
-combined_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
+if __name__ == '__main__':
+    # Load image
+    image = cv2.imread('assets/road.jpg')
+    # Create a copy of the image
+    lane_image = np.copy(image)
+    # Apply Canny edge detection
+    canny_image = canny(lane_image)
+    # Apply the region of interest
+    cropped_image = region_of_interest(canny_image)
+    # Calculate the Hough lines
+    lines = cv2.HoughLinesP(cropped_image, 2, np.pi / 180, 120, np.array([]), minLineLength=40, maxLineGap=20)
+    # Average the lines (Smooth the lines)
+    averaged_lines = average_slope_intercept(lane_image, lines)
+    # Display the lines
+    line_image = display_lines(lane_image, averaged_lines)
+    # Display combined image
+    combined_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
 
-cv2.imshow('result', combined_image)
-cv2.waitKey(0)
+    cv2.imshow('result', combined_image)
+    cv2.waitKey(0)
