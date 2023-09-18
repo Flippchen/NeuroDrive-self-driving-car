@@ -72,8 +72,10 @@ canny_image = canny(lane_image)
 cropped_image = region_of_interest(canny_image)
 # Calculate the Hough lines
 lines = cv2.HoughLinesP(cropped_image, 2, np.pi / 180, 120, np.array([]), minLineLength=40, maxLineGap=20)
-# Display the lines on the image
+# Display the lines
 line_image = display_lines(lane_image, lines)
+# Display combined image
+combined = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
 
-cv2.imshow('result', line_image)
+cv2.imshow('result', combined)
 cv2.waitKey(0)
