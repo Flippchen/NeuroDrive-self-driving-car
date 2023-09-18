@@ -36,9 +36,9 @@ def region_of_interest(image: np.ndarray) -> np.ndarray:
     # Fill the mask with the polygon
     cv2.fillPoly(mask, polygons, 255)
     # Apply the mask to the image
-    #masked_image = cv2.bitwise_and(image, mask)
+    masked_image = cv2.bitwise_and(image, mask)
 
-    return mask
+    return masked_image
 
 
 # Load image
@@ -47,6 +47,8 @@ image = cv2.imread('images/road.jpg')
 lane_image = np.copy(image)
 # Apply Canny edge detection
 canny_image = canny(lane_image)
+# Apply the region of interest
+cropped_image = region_of_interest(canny_image)
 
-#plt.imshow(canny_image)
-#plt.show()
+cv2.imshow('result', cropped_image)
+cv2.waitKey(0)
