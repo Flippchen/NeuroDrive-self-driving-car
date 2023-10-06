@@ -11,6 +11,12 @@ This project is a self-driving car simulation using a neural network. The neural
 3. Run the simulation using `python drive.py model.h5`
 
 ## Modules
-1. [Detect Lanes](01_Detecting_lane_lines): First step of self-driving is to find the lanes. This module uses OpenCV to detect the lanes.
 
-IMAGE OF DETECTED LANES
+### Detect lane lines
+First step of self-driving is to find the lanes. This module uses OpenCV to detect the lanes.
+An example of the detected lanes is shown below.
+![image](01_Detecting_lane_lines/assets/result.jpg)
+
+oad the simulator from [here](https://github.com/udacity/self-driving-car-sim) or use the provided dataset in the 
+
+
