@@ -3,3 +3,5 @@ numpy~=1.26.0
 matplotlib~=3.8.0
 keras==2.14.0
 tensorflow==2.14.0
+imaug
+scikit-learn
