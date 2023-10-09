@@ -20,3 +20,11 @@ An example of the detected lanes is shown below.
 oad the simulator from [here](https://github.com/udacity/self-driving-car-sim) or use the provided dataset in the 
 
 
+### Classify road signs
+The second step is to classify the road signs. This module uses a convolutional neural network to classify the road signs. The neural network is trained using images of traffic signs. The neural network is trained using Keras and Tensorflow. The neural network is able to classify 43 different road signs.
+#### Example images of the dataset:
+![image](02_Classify_road_signs/assets/img.png)
+#### Example of preprocessed image:
+![image](02_Classify_road_signs/assets/img_1.png)
+
+
