@@ -31,3 +31,5 @@ The second step is to classify the road signs. This module uses a convolutional 
 ### Behavioural cloning
 The third step is to train a neural network to drive the car. This module uses a convolutional neural network to drive the car. The neural network is trained using images of the car driving around the track. The neural network is trained using Keras and Tensorflow. The neural network is able to drive the car around the track.
 1. Download the simulator from [here](https://github.com/udacity/self-driving-car-sim)
+2. Collect data by driving the car around the track
+3. Train the neural network using `train.ipynb`
