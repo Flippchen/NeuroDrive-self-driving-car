@@ -33,3 +33,5 @@ The third step is to train a neural network to drive the car. This module uses a
 1. Download the simulator from [here](https://github.com/udacity/self-driving-car-sim)
 2. Collect data by driving the car around the track
 3. Train the neural network using `train.ipynb`
+4. Run the simulation using `python drive.py`
+5. Start the simulator and select autonomous mode
