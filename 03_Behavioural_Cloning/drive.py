@@ -36,6 +36,12 @@ def telemetry(sid, data):
     send_control(steering_angle, throttle)
 
 
+@sio.on('connect')
+def connect(sid, environ):
+    print('I am connected to the Udacity Simulator!')
+    send_control(0, 1)
+
+
 
 
 
