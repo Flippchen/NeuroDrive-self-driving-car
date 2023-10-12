@@ -1,4 +1,5 @@
 import socketio
+from eventlet import wsgi
 import eventlet
 from flask import Flask
 import numpy as np
@@ -10,7 +11,7 @@ import cv2
 
 sio = socketio.Server()
 
-app = Flask(__name__)  # '__main__' name
+app = Flask(__name__)
 speed_limit = 10
 
 
