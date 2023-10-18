@@ -3,7 +3,7 @@ numpy~=1.26.0
 matplotlib~=3.8.0
 keras==2.14.0
 tensorflow==2.14.0
-imaug
+imgaug
 scikit-learn
 eventlet~=0.33.3
 socketio~=0.2.1
