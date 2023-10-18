@@ -35,3 +35,6 @@ The third step is to train a neural network to drive the car. This module uses a
 3. Train the neural network using `train.ipynb`
 4. Run the simulation using `python drive.py`
 5. Start the simulator and select autonomous mode
+
+### Example image of driving
+![image](03_Behavioural_Cloning/assets/drive_1.png)
